@@ -11,7 +11,7 @@ namespace Microsoft.Maui
 		Size _offset;
 		Color _color;
 
-		[DefaultValue(1f)]
+		[DefaultValue(1.0f)]
 		public float Radius
 		{
 			get { return _radius; }
@@ -23,7 +23,7 @@ namespace Microsoft.Maui
 			}
 		}
 
-		[DefaultValue(10f)]
+		[DefaultValue(10.0f)]
 		public float Opacity
 		{
 			get { return _opacity; }

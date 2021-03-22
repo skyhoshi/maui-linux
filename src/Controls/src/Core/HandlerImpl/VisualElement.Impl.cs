@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Runtime.CompilerServices;
 using Microsoft.Maui.Layouts;
 
 namespace Microsoft.Maui.Controls
@@ -25,7 +22,7 @@ namespace Microsoft.Maui.Controls
 		protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
 			base.OnPropertyChanged(propertyName);
-			(Handler)?.UpdateValue(propertyName);
+			Handler?.UpdateValue(propertyName);
 		}
 
 		IFrameworkElement IFrameworkElement.Parent => Parent as IView;
@@ -35,6 +32,8 @@ namespace Microsoft.Maui.Controls
 		public virtual bool IsMeasureValid { get; protected set; }
 
 		public bool IsArrangeValid { get; protected set; }
+
+		public Shadow Shadow { get; set; }
 
 		public void Arrange(Rectangle bounds)
 		{
