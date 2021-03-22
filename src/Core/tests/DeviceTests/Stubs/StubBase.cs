@@ -32,6 +32,8 @@ namespace Microsoft.Maui.DeviceTests.Stubs
 		
 		public FlowDirection FlowDirection { get; set; }
 
+		public Shadow Shadow { get; set; }
+
 		public void Arrange(Rectangle bounds)
 		{
 			Frame = bounds;

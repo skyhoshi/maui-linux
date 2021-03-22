@@ -71,7 +71,7 @@ namespace Microsoft.Maui
 			if (nativeView.Context != null)
 				nativeView.Elevation = nativeView.Context.ToPixels(radius);
 
-			if (NativeVersion.IsAtLeast(28))
+			if (!NativeVersion.Supports(NativeApis.OutlineAmbientShadowColor))
 				return;
 
 			nativeView.SetOutlineAmbientShadowColor(nativeColor);
