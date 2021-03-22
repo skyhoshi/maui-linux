@@ -1,3 +1,5 @@
+using Android.Views;
+using Android.Widget;
 using AView = Android.Views.View;
 
 namespace Microsoft.Maui
@@ -34,10 +36,46 @@ namespace Microsoft.Maui
 		{
 			if (AutomationTagId == DefaultAutomationTagId)
 			{
-				AutomationTagId = Microsoft.Maui.Resource.Id.automation_tag_id;
+				AutomationTagId = Resource.Id.automation_tag_id;
 			}
 
 			nativeView.SetTag(AutomationTagId, view.AutomationId);
+		}
+
+		public static void UpdateShadow(this AView nativeView, IView view)
+		{
+			var radius = view.Shadow.Radius;
+
+			if (radius < 0)
+				return;
+
+			var opacity = view.Shadow.Opacity;
+
+			if (opacity < 0)
+				return;
+
+			var nativeColor = view.Shadow.Color.ToNative();
+
+			if (nativeView is TextView textView)
+			{
+				var offsetX = (float)view.Shadow.Offset.Width;
+				var offsetY = (float)view.Shadow.Offset.Height;
+				textView.SetShadowLayer(radius, offsetX, offsetY, nativeColor);
+				return;
+			}
+
+			nativeView.OutlineProvider = view.BackgroundColor.A > 0
+				? ViewOutlineProvider.PaddedBounds
+				: ViewOutlineProvider.Bounds;
+
+			if (nativeView.Context != null)
+				nativeView.Elevation = nativeView.Context.ToPixels(radius);
+
+			if (NativeVersion.IsAtLeast(28))
+				return;
+
+			nativeView.SetOutlineAmbientShadowColor(nativeColor);
+			nativeView.SetOutlineSpotShadowColor(nativeColor);
 		}
 	}
 }

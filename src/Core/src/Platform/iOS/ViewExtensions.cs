@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CoreGraphics;
 using UIKit;
 
 namespace Microsoft.Maui
@@ -47,6 +48,26 @@ namespace Microsoft.Maui
 			}
 
 			return null;
+		}
+
+		public static void UpdateShadow(this UIView nativeView, IView view)
+		{
+			var radius = view.Shadow.Radius;
+
+			if (radius < 0)
+				return;
+
+			var opacity = view.Shadow.Opacity;
+
+			if (opacity < 0)
+				return;
+
+			var nativeColor = view.Shadow.Color.ToNative();
+
+			nativeView.Layer.ShadowColor = nativeColor.CGColor;
+			nativeView.Layer.ShadowOpacity = opacity;
+			nativeView.Layer.ShadowRadius = radius;
+			nativeView.Layer.ShadowOffset = new CGSize((double)view.Shadow.Offset.Width, (double)view.Shadow.Offset.Height);
 		}
 	}
 }

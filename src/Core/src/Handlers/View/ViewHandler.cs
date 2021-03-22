@@ -1,6 +1,3 @@
-using System;
-using System.Drawing;
-using System.Runtime.CompilerServices;
 #if __IOS__
 using NativeView = UIKit.UIView;
 #elif __MACOS__
@@ -17,11 +14,22 @@ namespace Microsoft.Maui.Handlers
 	{
 		public static PropertyMapper<IView> ViewMapper = new PropertyMapper<IView>
 		{
+			[nameof(IView.AutomationId)] = MapAutomationId,
 			[nameof(IView.BackgroundColor)] = MapBackgroundColor,
 			[nameof(IView.Frame)] = MapFrame,
 			[nameof(IView.IsEnabled)] = MapIsEnabled,
-			[nameof(IView.AutomationId)] = MapAutomationId
+			[nameof(IView.Shadow)] = MapShadow
 		};
+
+		public static void MapAutomationId(IViewHandler handler, IView view)
+		{
+			(handler.NativeView as NativeView)?.UpdateAutomationId(view);
+		}
+
+		public static void MapBackgroundColor(IViewHandler handler, IView view)
+		{
+			(handler.NativeView as NativeView)?.UpdateBackgroundColor(view);
+		}
 
 		public static void MapFrame(IViewHandler handler, IView view)
 		{
@@ -33,15 +41,9 @@ namespace Microsoft.Maui.Handlers
 			(handler.NativeView as NativeView)?.UpdateIsEnabled(view);
 		}
 
-		public static void MapBackgroundColor(IViewHandler handler, IView view)
+		public static void MapShadow(IViewHandler handler, IView view)
 		{
-			(handler.NativeView as NativeView)?.UpdateBackgroundColor(view);
+			(handler.NativeView as NativeView)?.UpdateShadow(view);
 		}
-
-		public static void MapAutomationId(IViewHandler handler, IView view)
-		{
-			(handler.NativeView as NativeView)?.UpdateAutomationId(view);
-		}
-
 	}
 }

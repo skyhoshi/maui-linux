@@ -21,6 +21,21 @@
 		Rectangle Frame { get; }
 
 		/// <summary>
+		/// Id used by automation tools to interact with this FrameworkElement.
+		/// </summary>
+		string AutomationId { get; }
+
+		/// <summary>
+		/// Direction in which the UI elements on the page are scanned by the eye.
+		/// </summary>
+		FlowDirection FlowDirection { get; }
+
+		/// <summary>
+		/// Paints a shadow around the target View.
+		/// </summary>
+		Shadow Shadow { get; set; }
+
+		/// <summary>
 		/// Gets the current rendered width of this FrameworkElement. 
 		/// </summary>
 		double Width { get; }
@@ -78,15 +93,5 @@
 		/// Method that is called to invalidate the layout of this FrameworkElement.
 		/// </summary>
 		void InvalidateArrange();
-
-		/// <summary>
-		/// Id used by automation tools to interact with this FrameworkElement
-		/// </summary>
-		string AutomationId { get; }
-
-		/// <summary>
-		/// Direction in which the UI elements on the page are scanned by the eye
-		/// </summary>
-		FlowDirection FlowDirection { get; }
 	}
 }
