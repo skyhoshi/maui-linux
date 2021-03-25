@@ -54,6 +54,14 @@ namespace Microsoft.Maui
 				textField.AutocorrectionType = UITextAutocorrectionType.No;
 		}
 
+		public static void UpdateMaxLength(this UITextField textField, IEntry entry)
+		{
+			var currentControlText = textField.Text;
+
+			if (currentControlText?.Length > entry.MaxLength)
+				textField.Text = currentControlText.Substring(0, entry.MaxLength);
+		}
+
 		public static void UpdatePlaceholder(this UITextField textField, IEntry entry)
 		{
 			textField.Placeholder = entry.Placeholder;
@@ -83,10 +91,23 @@ namespace Microsoft.Maui
 				textField.AttributedText = textAttr;
 		}
 
+		public static void UpdateCharacterSpacing(this UITextField textField, IEntry textView)
+		{
+			var textAttr = textField.AttributedText?.WithCharacterSpacing(textView.CharacterSpacing);
+
+			if (textAttr != null)
+				textField.AttributedText = textAttr;
+		}
+
 		public static void UpdateFont(this UITextField textField, IText textView, IFontManager fontManager)
 		{
 			var uiFont = fontManager.GetFont(textView.Font);
 			textField.Font = uiFont;
+		}
+
+		public static void UpdateClearButtonVisibility(this UITextField textField, IEntry entry)
+		{
+			textField.ClearButtonMode = entry.ClearButtonVisibility == ClearButtonVisibility.WhileEditing ? UITextFieldViewMode.WhileEditing : UITextFieldViewMode.Never;
 		}
 	}
 }

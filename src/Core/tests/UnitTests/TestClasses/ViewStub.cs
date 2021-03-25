@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Maui.Primitives;
 
 namespace Microsoft.Maui.Tests
 {
@@ -31,6 +32,10 @@ namespace Microsoft.Maui.Tests
 		public bool IsMeasureValid { get; set; }
 
 		public bool IsArrangeValid { get; set; }
+
+    public LayoutAlignment HorizontalLayoutAlignment { get; set; }
+    
+		public LayoutAlignment VerticalLayoutAlignment { get; set; }
 
 		public void Arrange(Rectangle bounds) { }
 
