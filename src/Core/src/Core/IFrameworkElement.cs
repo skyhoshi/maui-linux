@@ -23,14 +23,15 @@ namespace Microsoft.Maui
 		Rectangle Frame { get; }
 
 		/// <summary>
-		/// Id used by automation tools to interact with this FrameworkElement.
+		/// Id used by automation tools to interact with this FrameworkElement
 		/// </summary>
 		string AutomationId { get; }
 
 		/// <summary>
-		/// Direction in which the UI elements on the page are scanned by the eye.
+		/// Direction in which the UI elements on the page are scanned by the eye
 		/// </summary>
 		FlowDirection FlowDirection { get; }
+
 
 		/// <summary>
 		/// Paints a shadow around the target View.
@@ -46,6 +47,16 @@ namespace Microsoft.Maui
 		/// Gets the current rendered height of this FrameworkElement. 
 		/// </summary>
 		double Height { get; }
+
+		/// <summary>
+		/// Determines the horizontal aspect of this element's arrangement in a container
+		/// </summary>
+		LayoutAlignment HorizontalLayoutAlignment { get; }
+
+		/// <summary>
+		/// Determines the vertical aspect of this element's arrangement in a container
+		/// </summary>
+		LayoutAlignment VerticalLayoutAlignment { get; }
 
 		/// <summary>
 		/// Gets or sets the View Handler of the FrameworkElement.
@@ -95,25 +106,5 @@ namespace Microsoft.Maui
 		/// Method that is called to invalidate the layout of this FrameworkElement.
 		/// </summary>
 		void InvalidateArrange();
-
-		/// <summary>
-		/// Id used by automation tools to interact with this FrameworkElement
-		/// </summary>
-		string AutomationId { get; }
-
-		/// <summary>
-		/// Direction in which the UI elements on the page are scanned by the eye
-		/// </summary>
-		FlowDirection FlowDirection { get; }
-
-		/// <summary>
-		/// Determines the horizontal aspect of this element's arrangement in a container
-		/// </summary>
-		LayoutAlignment HorizontalLayoutAlignment { get; }
-
-		/// <summary>
-		/// Determines the vertical aspect of this element's arrangement in a container
-		/// </summary>
-		LayoutAlignment VerticalLayoutAlignment { get; }
 	}
 }
