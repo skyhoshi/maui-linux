@@ -45,6 +45,7 @@ namespace Microsoft.Maui.Controls
 
 		internal static Dictionary<Type, Type> KnownConverters = new Dictionary<Type, Type> {
 			{ typeof(Color), typeof(ColorTypeConverter) },
+			{ typeof(DoubleCollection), typeof(DoubleCollectionConverter) },
 			{ typeof(Font), typeof(FontTypeConverter) },
 			{ typeof(Keyboard), typeof(KeyboardTypeConverter) },
 			{ typeof(Rectangle), typeof(RectangleTypeConverter) },

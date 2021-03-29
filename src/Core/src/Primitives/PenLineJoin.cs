@@ -1,4 +1,4 @@
-namespace Microsoft.Maui.Controls.Shapes
+﻿namespace Microsoft.Maui
 {
 	public enum PenLineJoin
 	{
