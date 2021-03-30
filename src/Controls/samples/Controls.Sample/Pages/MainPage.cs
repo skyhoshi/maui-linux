@@ -38,19 +38,26 @@ namespace Maui.Controls.Sample.Pages
 			var resizeTestButton = new Button { Text = "Resize Test" };
 			var resizeTestLabel = new Label { Text = "Short Text", BackgroundColor = Color.LightBlue };
 
+			// TODO ezhart This is ignoring the explicit width until the label's text is long enough to require it. 
+			// And if the whole stack gets wider than 200, it's getting ignored then, too.
+			var explicitSizeTestLabel = new Label { Text = "Short Text", BackgroundColor = Color.LightGreen, WidthRequest = 200 };
+
 			resizeTestButton.Clicked += (sender, args) => {
 				if (resizeTestLabel.Text == "Short Text")
 				{
 					resizeTestLabel.Text = loremIpsum;
+					explicitSizeTestLabel.Text = loremIpsum;
 				}
 				else
 				{
 					resizeTestLabel.Text = "Short Text";
+					explicitSizeTestLabel.Text = "Short Text";
 				}
 			};
 
 			verticalStack.Add(resizeTestButton);
-			verticalStack.Add(resizeTestLabel);
+			//verticalStack.Add(resizeTestLabel);
+			verticalStack.Add(explicitSizeTestLabel);
 
 			//verticalStack.Add(CreateSampleGrid());
 

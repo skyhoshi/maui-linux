@@ -34,14 +34,7 @@ namespace Microsoft.Maui.Handlers
 
 			foreach (var child in VirtualView.Children)
 			{
-				var nativeChild = child.ToNative(MauiContext);
-
-				var childLp = nativeChild.LayoutParameters;
-				System.Diagnostics.Debug.WriteLine($">>>>>> {nativeChild} layout params width is {childLp?.Width} ");
-
-				var lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
-
-				TypedNativeView.AddView(nativeChild, lp);
+				TypedNativeView.AddView(child.ToNative(MauiContext));
 			}
 		}
 
