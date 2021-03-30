@@ -41,6 +41,8 @@ namespace Microsoft.Maui.Handlers
 				nativeView.LayoutParameters.Height = (int)height;
 			}
 
+			System.Diagnostics.Debug.WriteLine($">>>>>> AbstractViewHandler {typeof(TVirtualView)} SetFrame {frame}");
+
 			nativeView.Layout((int)left, (int)top, (int)right, (int)bottom);
 		}
 
@@ -62,7 +64,11 @@ namespace Microsoft.Maui.Handlers
 			var widthSpec = MeasureSpecMode.AtMost.MakeMeasureSpec((int)deviceWidthConstraint);
 			var heightSpec = MeasureSpecMode.AtMost.MakeMeasureSpec((int)deviceHeightConstraint);
 
+			System.Diagnostics.Debug.WriteLine($">>>>>> AbstractViewHandler {typeof(TVirtualView)} GetDesiredSize");
+
 			TypedNativeView.Measure(widthSpec, heightSpec);
+
+			System.Diagnostics.Debug.WriteLine($">>>>>> AbstractViewHandler {typeof(TVirtualView)} result {TypedNativeView.MeasuredWidth}, {TypedNativeView.MeasuredHeight} (in pixels)");
 
 			return Context.FromPixels(TypedNativeView.MeasuredWidth, TypedNativeView.MeasuredHeight);
 		}

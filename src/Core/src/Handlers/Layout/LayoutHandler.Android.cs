@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Android.Views;
 
 namespace Microsoft.Maui.Handlers
@@ -36,7 +34,14 @@ namespace Microsoft.Maui.Handlers
 
 			foreach (var child in VirtualView.Children)
 			{
-				TypedNativeView.AddView(child.ToNative(MauiContext));
+				var nativeChild = child.ToNative(MauiContext);
+
+				var childLp = nativeChild.LayoutParameters;
+				System.Diagnostics.Debug.WriteLine($">>>>>> {nativeChild} layout params width is {childLp?.Width} ");
+
+				var lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
+
+				TypedNativeView.AddView(nativeChild, lp);
 			}
 		}
 
@@ -46,7 +51,7 @@ namespace Microsoft.Maui.Handlers
 			_ = VirtualView ?? throw new InvalidOperationException($"{nameof(VirtualView)} should have been set by base class.");
 			_ = MauiContext ?? throw new InvalidOperationException($"{nameof(MauiContext)} should have been set by base class.");
 
-			TypedNativeView.AddView(child.ToNative(MauiContext), 0);
+			TypedNativeView.AddView(child.ToNative(MauiContext));
 		}
 
 		public void Remove(IView child)

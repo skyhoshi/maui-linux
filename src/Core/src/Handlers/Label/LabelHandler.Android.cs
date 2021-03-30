@@ -1,16 +1,49 @@
 using System;
+using Android.Content;
+using Android.Runtime;
+using Android.Util;
 using Android.Widget;
+using Java.Lang;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Maui.Handlers
 {
+	public class MyTextView : TextView 
+	{
+		public MyTextView(Context? context) : base(context)
+		{
+		}
+
+		public MyTextView(Context? context, IAttributeSet? attrs) : base(context, attrs)
+		{
+		}
+
+		public MyTextView(Context? context, IAttributeSet? attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
+		{
+		}
+
+		public MyTextView(Context? context, IAttributeSet? attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
+		{
+		}
+
+		protected MyTextView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+		{
+		}
+
+		public override void SetText(ICharSequence? text, BufferType? type)
+		{
+			base.SetText(text, type);
+			//RequestLayout();
+		}
+	}
+
 	public partial class LabelHandler : AbstractViewHandler<ILabel, TextView>
 	{
 		static Color DefaultTextColor { get; set; }
 		static float LineSpacingAddDefault { get; set; }
 		static float LineSpacingMultDefault { get; set; }
 
-		protected override TextView CreateNativeView() => new TextView(Context);
+		protected override TextView CreateNativeView() => new MyTextView(Context);
 
 		protected override void SetupDefaults(TextView nativeView)
 		{
@@ -74,9 +107,10 @@ namespace Microsoft.Maui.Handlers
 
 			handler.TypedNativeView?.UpdateFont(label, fontManager);
 		}
+
 		public static void MapLineHeight(LabelHandler handler, ILabel label)
 		{
-			handler.TypedNativeView?.UpdateLineHeight(label, LineSpacingAddDefault, LineSpacingMultDefault);
+			 handler.TypedNativeView?.UpdateLineHeight(label, LineSpacingAddDefault, LineSpacingMultDefault);
 		}
 	}
 }
