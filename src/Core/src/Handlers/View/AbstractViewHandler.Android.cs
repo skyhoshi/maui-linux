@@ -41,32 +41,37 @@ namespace Microsoft.Maui.Handlers
 				return Size.Zero;
 			}
 
-			var widthMode = MeasureSpecMode.AtMost;
-			var heightMode = MeasureSpecMode.AtMost;
-
-			if (VirtualView.Width > -1)
-			{
-				widthConstraint = VirtualView.Width;
-				widthMode = MeasureSpecMode.Exactly;
-			}
-
-			if (VirtualView.Height > -1)
-			{
-				heightConstraint = VirtualView.Height;
-				heightMode = MeasureSpecMode.Exactly;
-			}
-
-			// Convert to native sizes to do the actual measuring
-			var deviceWidthConstraint = (int)Context.ToPixels(widthConstraint);
-			var deviceHeightConstraint = (int)Context.ToPixels(heightConstraint);
-
-			var widthSpec = widthMode.MakeMeasureSpec(deviceWidthConstraint);
-			var heightSpec = heightMode.MakeMeasureSpec(deviceHeightConstraint);
+			// Create a spec to handle the native measure
+			var widthSpec = CreateMeasureSpec(widthConstraint, VirtualView.Width);
+			var heightSpec = CreateMeasureSpec(heightConstraint, VirtualView.Height);
 
 			TypedNativeView.Measure(widthSpec, heightSpec);
 
 			// Convert back to xplat sizes for the return value
 			return Context.FromPixels(TypedNativeView.MeasuredWidth, TypedNativeView.MeasuredHeight);
+		}
+
+		int CreateMeasureSpec(double constraint, double explicitSize) 
+		{
+			var mode = MeasureSpecMode.AtMost;
+
+			if (explicitSize > -1)
+			{
+				// We have a set value (i.e., a Width or Height)
+				mode = MeasureSpecMode.Exactly;
+				constraint = explicitSize;
+			}
+			else if (double.IsInfinity(constraint))
+			{
+				// We've got infinite space; we'll leave the size up to the native control
+				mode = MeasureSpecMode.Unspecified;
+				constraint = 0;
+			}
+
+			// Convert to a native size to create the spec for measuring
+			var deviceConstraint = (int)Context!.ToPixels(constraint);
+
+			return mode.MakeMeasureSpec(deviceConstraint);
 		}
 
 		void SetupContainer()
