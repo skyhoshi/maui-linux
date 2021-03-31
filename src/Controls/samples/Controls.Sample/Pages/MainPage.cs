@@ -4,6 +4,7 @@ using Maui.Controls.Sample.Controls;
 using Maui.Controls.Sample.ViewModel;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using Debug = System.Diagnostics.Debug;
 
 namespace Maui.Controls.Sample.Pages
@@ -33,7 +34,6 @@ namespace Maui.Controls.Sample.Pages
 
 			var verticalStack = new VerticalStackLayout() { Spacing = 5, BackgroundColor = Color.AntiqueWhite };
 			var horizontalStack = new HorizontalStackLayout() { Spacing = 2, BackgroundColor = Color.CornflowerBlue };
-
 
 			verticalStack.Add(CreateSampleGrid());
 
@@ -102,7 +102,6 @@ namespace Maui.Controls.Sample.Pages
 			verticalStack.Add(new Editor { Text = "Lorem ipsum dolor sit amet", FontSize = 10, FontFamily = "dokdo_regular" });
 			verticalStack.Add(new Editor { Text = "ReadOnly Editor", IsReadOnly = true });
 
-
 			var entry = new Entry();
 			entry.TextChanged += (sender, e) =>
 			{
@@ -130,7 +129,6 @@ namespace Maui.Controls.Sample.Pages
 			var placeholderSearchBar = new SearchBar();
 			placeholderSearchBar.Placeholder = "Placeholder";
 			verticalStack.Add(placeholderSearchBar);
-
 
 			var monkeyList = new List<string>
 			{
@@ -166,12 +164,18 @@ namespace Maui.Controls.Sample.Pages
 
 			verticalStack.Add(new Image() { Source = "dotnet_bot.png" });
 
+			verticalStack.Add(new ShapeView(new Ellipse()) { Fill = Color.Red, Stroke = Color.Black, StrokeThickness = 4, StrokeDashArray = new DoubleCollection() { 2, 2 }, HeightRequest = 60, WidthRequest = 100 });
+			verticalStack.Add(new ShapeView(new Line { X1 = 0, Y1 = 0, X2 = 80, Y2 = 90 }) { Fill = Color.Red, Stroke = Color.Black, StrokeThickness = 4, StrokeDashArray = new DoubleCollection() { 2, 2 }, HeightRequest = 100, WidthRequest = 100 });
+			verticalStack.Add(new ShapeView(new Path("M15.999996,0L31.999999,13.000001 15.999996,26.199999 0,13.000001z")) { Fill = Color.Pink, Stroke = Color.Red, StrokeThickness = 1, HeightRequest = 100, WidthRequest = 100 });
+			verticalStack.Add(new ShapeView(new Polyline { Points = new PointCollection() { new Point(10, 10), new Point(100, 50), new Point(50, 90) } }) { Stroke = Color.Black, StrokeThickness = 2, StrokeDashArray = new DoubleCollection() { 2, 2 }, HeightRequest = 100, WidthRequest = 100 });
+			verticalStack.Add(new ShapeView(new Polygon { Points = new PointCollection() { new Point(10, 10), new Point(100, 50), new Point(50, 90) } }) { Fill = Color.LightBlue, Stroke = Color.Black, StrokeThickness = 2, StrokeDashArray = new DoubleCollection() { 2, 2 }, HeightRequest = 100, WidthRequest = 100 });
+			verticalStack.Add(new ShapeView(new Microsoft.Maui.Graphics.Rectangle { CornerRadius = new CornerRadius(12, 24, 0, 12) }) { Fill = Color.Orange, Stroke = Color.Purple, StrokeThickness = 2, StrokeDashArray = new DoubleCollection() { 1, 1 }, HeightRequest = 60, WidthRequest = 100 });
+
 			Content = new ScrollView
 			{
 				Content = verticalStack
 			};
 		}
-
 
 		void SetupCompatibilityLayout()
 		{
