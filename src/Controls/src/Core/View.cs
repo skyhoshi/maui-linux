@@ -7,8 +7,6 @@ using System.Runtime.CompilerServices;
 using Microsoft.Maui.Controls.Internals;
 using Microsoft.Maui.Layouts;
 
-
-
 namespace Microsoft.Maui.Controls
 {
 	public class View : VisualElement, IView, IViewController, IGestureController, IGestureRecognizers, IPropertyMapperView
@@ -191,9 +189,6 @@ namespace Microsoft.Maui.Controls
 
 		protected PropertyMapper<T> GetRendererOverrides<T>() where T : IView => (PropertyMapper<T>)(propertyMapper as PropertyMapper<T> ?? (propertyMapper = new PropertyMapper<T>()));
 		PropertyMapper IPropertyMapperView.GetPropertyMapperOverrides() => propertyMapper;
-
-		double IFrameworkElement.Width { get => WidthRequest; }
-		double IFrameworkElement.Height { get => HeightRequest; }
 
 		Primitives.LayoutAlignment IFrameworkElement.HorizontalLayoutAlignment => HorizontalOptions.ToCore();
 		Primitives.LayoutAlignment IFrameworkElement.VerticalLayoutAlignment => VerticalOptions.ToCore();

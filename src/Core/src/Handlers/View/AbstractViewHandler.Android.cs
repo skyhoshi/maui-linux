@@ -31,35 +31,41 @@ namespace Microsoft.Maui.Handlers
 
 			UpdateLayoutParams(frame.Width, frame.Height);
 
-			System.Diagnostics.Debug.WriteLine($">>>>>> AbstractViewHandler {typeof(TVirtualView)} SetFrame {frame}");
-
 			nativeView.Layout((int)left, (int)top, (int)right, (int)bottom);
 		}
 
 		public virtual Size GetDesiredSize(double widthConstraint, double heightConstraint)
 		{
-			if (TypedNativeView == null)
+			if (TypedNativeView == null || VirtualView == null || Context == null)
 			{
 				return Size.Zero;
 			}
 
-			if (Context == null)
+			var widthMode = MeasureSpecMode.AtMost;
+			var heightMode = MeasureSpecMode.AtMost;
+
+			if (VirtualView.Width > -1)
 			{
-				return new Size(widthConstraint, heightConstraint);
+				widthConstraint = VirtualView.Width;
+				widthMode = MeasureSpecMode.Exactly;
 			}
 
-			var deviceWidthConstraint = Context.ToPixels(widthConstraint);
-			var deviceHeightConstraint = Context.ToPixels(heightConstraint);
+			if (VirtualView.Height > -1)
+			{
+				heightConstraint = VirtualView.Height;
+				heightMode = MeasureSpecMode.Exactly;
+			}
 
-			var widthSpec = MeasureSpecMode.AtMost.MakeMeasureSpec((int)deviceWidthConstraint);
-			var heightSpec = MeasureSpecMode.AtMost.MakeMeasureSpec((int)deviceHeightConstraint);
+			// Convert to native sizes to do the actual measuring
+			var deviceWidthConstraint = (int)Context.ToPixels(widthConstraint);
+			var deviceHeightConstraint = (int)Context.ToPixels(heightConstraint);
 
-			System.Diagnostics.Debug.WriteLine($">>>>>> AbstractViewHandler {typeof(TVirtualView)} GetDesiredSize");
+			var widthSpec = widthMode.MakeMeasureSpec(deviceWidthConstraint);
+			var heightSpec = heightMode.MakeMeasureSpec(deviceHeightConstraint);
 
 			TypedNativeView.Measure(widthSpec, heightSpec);
 
-			System.Diagnostics.Debug.WriteLine($">>>>>> AbstractViewHandler {typeof(TVirtualView)} result {TypedNativeView.MeasuredWidth}, {TypedNativeView.MeasuredHeight} (in pixels)");
-
+			// Convert back to xplat sizes for the return value
 			return Context.FromPixels(TypedNativeView.MeasuredWidth, TypedNativeView.MeasuredHeight);
 		}
 

@@ -143,5 +143,8 @@ namespace Microsoft.Maui.Controls
 		Maui.FlowDirection IFrameworkElement.FlowDirection => FlowDirection.ToPlatformFlowDirection();
 		Primitives.LayoutAlignment IFrameworkElement.HorizontalLayoutAlignment => default;
 		Primitives.LayoutAlignment IFrameworkElement.VerticalLayoutAlignment => default;
+
+		double IFrameworkElement.Width { get => WidthRequest; }
+		double IFrameworkElement.Height { get => HeightRequest; }
 	}
 }

@@ -9,35 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Maui.Handlers
 {
-	//public class MyTextView : TextView 
-	//{
-	//	public MyTextView(Context? context) : base(context)
-	//	{
-	//	}
-
-	//	public MyTextView(Context? context, IAttributeSet? attrs) : base(context, attrs)
-	//	{
-	//	}
-
-	//	public MyTextView(Context? context, IAttributeSet? attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
-	//	{
-	//	}
-
-	//	public MyTextView(Context? context, IAttributeSet? attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
-	//	{
-	//	}
-
-	//	protected MyTextView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
-	//	{
-	//	}
-
-	//	public override void SetText(ICharSequence? text, BufferType? type)
-	//	{
-	//		base.SetText(text, type);
-	//		//RequestLayout();
-	//	}
-	//}
-
 	public partial class LabelHandler : AbstractViewHandler<ILabel, TextView>
 	{
 		static Color DefaultTextColor { get; set; }
@@ -59,8 +30,6 @@ namespace Microsoft.Maui.Handlers
 
 			LineSpacingAddDefault = nativeView.LineSpacingExtra;
 			LineSpacingMultDefault = nativeView.LineSpacingMultiplier;
-
-			nativeView.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
 		}
 
 		public static void MapText(LabelHandler handler, ILabel label)
@@ -114,7 +83,7 @@ namespace Microsoft.Maui.Handlers
 
 		public static void MapLineHeight(LabelHandler handler, ILabel label)
 		{
-			 handler.TypedNativeView?.UpdateLineHeight(label, LineSpacingAddDefault, LineSpacingMultDefault);
+			handler.TypedNativeView?.UpdateLineHeight(label, LineSpacingAddDefault, LineSpacingMultDefault);
 		}
 	}
 }
