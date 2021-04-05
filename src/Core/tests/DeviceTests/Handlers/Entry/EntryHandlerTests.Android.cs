@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Android.Graphics.Drawables;
 using Android.Text;
 using Android.Views.InputMethods;
 using AndroidX.AppCompat.Widget;
@@ -92,6 +91,114 @@ namespace Microsoft.Maui.DeviceTests
 			values.NativeViewValue.AssertHasFlag(expectedValue);
 		}
 
+		[Fact(DisplayName = "CharacterSpacing Initializes Correctly")]
+		public async Task CharacterSpacingInitializesCorrectly()
+		{
+			var xplatCharacterSpacing = 4;
+
+			var entry = new EntryStub()
+			{
+				CharacterSpacing = xplatCharacterSpacing,
+				Text = "Some Test Text"
+			};
+
+			float expectedValue = entry.CharacterSpacing.ToEm();
+
+			var values = await GetValueAsync(entry, (handler) =>
+			{
+				return new
+				{
+					ViewValue = entry.CharacterSpacing,
+					NativeViewValue = GetNativeCharacterSpacing(handler)
+				};
+			});
+
+			Assert.Equal(xplatCharacterSpacing, values.ViewValue);
+			Assert.Equal(expectedValue, values.NativeViewValue, EmCoefficientPrecision);
+		}
+
+		[Fact(DisplayName = "CornerRadius Initializes Correctly")]
+		public async Task CornerRadiusInitializesCorrectly()
+		{
+			var expected = new CornerRadius(12, 0, 0, 24);
+
+			var entry = new EntryStub()
+			{
+				CornerRadius = expected,
+				BorderColor = Color.OrangeRed,
+				BorderWidth = 4,
+				Text = "Test"
+			};
+
+			var values = await GetValueAsync(entry, (handler) =>
+			{
+				return new
+				{
+					ViewValue = entry.CornerRadius,
+					NativeViewValue = GetNativeCornerRadius(handler)
+				};
+			});
+
+			Assert.Equal(expected, values.ViewValue);
+			Assert.Equal(expected, values.NativeViewValue);
+		}
+
+		[Fact(DisplayName = "Border Color Initializes Correctly")]
+		public async Task BorderColorInitializesCorrectly()
+		{
+			var xplatBorderColor = Color.Red;
+
+			var entry = new EntryStub()
+			{
+				BorderColor = xplatBorderColor,
+				BorderWidth = 4,
+				Text = "Test"
+			};
+
+			AColor? expectedValue = xplatBorderColor.ToNative();
+
+			var values = await GetValueAsync(entry, (handler) =>
+			{
+				return new
+				{
+					ViewValue = entry.BorderColor,
+					NativeViewValue = GetNativeBorderColor(handler)
+				};
+			});
+
+			Assert.Equal(xplatBorderColor, values.ViewValue);
+			Assert.Equal(expectedValue, values.NativeViewValue);
+		}
+
+		[Theory(DisplayName = "Border Width Initializes Correctly")]
+		[InlineData(1)]
+		[InlineData(2)]
+		[InlineData(3)]
+		[InlineData(4)]
+		public async Task BorderWidthInitializesCorrectly(double borderWidth)
+		{
+			var xplatBorderWidth = borderWidth;
+
+			var entry = new EntryStub()
+			{
+				BorderColor = Color.Black,
+				BorderWidth = xplatBorderWidth,
+				Text = "Test"
+			};
+
+			var values = await GetValueAsync(entry, (handler) =>
+			{
+				return new
+				{
+					ViewValue = entry.BorderWidth,
+					NativeViewValue = GetNativeBorderWidth(handler)
+				};
+			});
+
+			Assert.Equal(xplatBorderWidth, values.ViewValue);
+			Assert.NotEqual(0, values.NativeViewValue);
+		}
+
 		AppCompatEditText GetNativeEntry(EntryHandler entryHandler) =>
 			(AppCompatEditText)entryHandler.View;
 
@@ -163,32 +270,6 @@ namespace Microsoft.Maui.DeviceTests
 			return compoundsValidWhenFocused && compoundsValidWhenUnfocused;
 		}
 
-		[Fact(DisplayName = "CharacterSpacing Initializes Correctly")]
-		public async Task CharacterSpacingInitializesCorrectly()
-		{
-			var xplatCharacterSpacing = 4;
-
-			var entry = new EntryStub()
-			{
-				CharacterSpacing = xplatCharacterSpacing,
-				Text = "Some Test Text"
-			};
-
-			float expectedValue = entry.CharacterSpacing.ToEm();
-
-			var values = await GetValueAsync(entry, (handler) =>
-			{
-				return new
-				{
-					ViewValue = entry.CharacterSpacing,
-					NativeViewValue = GetNativeCharacterSpacing(handler)
-				};
-			});
-
-			Assert.Equal(xplatCharacterSpacing, values.ViewValue);
-			Assert.Equal(expectedValue, values.NativeViewValue, EmCoefficientPrecision);
-		}
-
 		double GetNativeCharacterSpacing(EntryHandler entryHandler)
 		{
 			var editText = GetNativeEntry(entryHandler);
@@ -199,6 +280,39 @@ namespace Microsoft.Maui.DeviceTests
 			}
 
 			return -1;
+		}
+
+		CornerRadius GetNativeCornerRadius(EntryHandler entryHandler)
+		{
+			var entry = GetNativeEntry(entryHandler);
+			var borderDrawable = entry.GetBorderDrawable();
+
+			if (borderDrawable != null)
+				return borderDrawable.CornerRadius;
+
+			return new CornerRadius();
+		}
+
+		AColor? GetNativeBorderColor(EntryHandler entryHandler)
+		{
+			var entry = GetNativeEntry(entryHandler);
+			var borderDrawable = entry.GetBorderDrawable();
+
+			if (borderDrawable != null)
+				return borderDrawable.BorderColor;
+
+			return null;
+		}
+
+		float? GetNativeBorderWidth(EntryHandler entryHandler)
+		{
+			var entry = GetNativeEntry(entryHandler);
+			var borderDrawable = entry.GetBorderDrawable();
+
+			if (borderDrawable != null)
+				return borderDrawable.BorderWidth;
+
+			return null;
 		}
 	}
 }

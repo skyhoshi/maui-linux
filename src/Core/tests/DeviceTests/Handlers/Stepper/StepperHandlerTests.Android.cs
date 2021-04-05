@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Android.Graphics.Drawables;
 using Android.Widget;
 using Microsoft.Maui.Handlers;
@@ -44,10 +45,14 @@ namespace Microsoft.Maui.DeviceTests
 			return 0;
 		}
 
-		async Task ValidateNativeBackgroundColor(IStepper stepper, Color color)
+		Task ValidateNativeBackgroundColor(IStepper stepper, Color color, Action action = null)
 		{
-			var expected = await GetValueAsync(stepper, handler => ((ColorDrawable)GetNativeStepper(handler).Background).Color.ToColor());
-			Assert.Equal(expected, color);
+			return InvokeOnMainThreadAsync(() =>
+			{
+				var nativeStepper = GetNativeStepper(CreateHandler(stepper));
+				action?.Invoke();
+				return nativeStepper.AssertContainsColor(color);
+			});
 		}
 	}
 }

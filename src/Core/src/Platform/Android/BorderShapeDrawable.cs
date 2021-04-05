@@ -47,6 +47,14 @@ namespace Microsoft.Maui
             UpdateBorderColor(view.BorderColor);
         }
 
+        internal AColor? BackgroundColor => _backgroundColor;
+
+        internal AColor? BorderColor => _borderColor;
+
+        internal float? BorderWidth => _borderColor;
+
+        internal CornerRadius CornerRadius => _cornerRadius;
+
         protected override void OnBoundsChange(ARect? bounds)
         {
             if (bounds != null)
