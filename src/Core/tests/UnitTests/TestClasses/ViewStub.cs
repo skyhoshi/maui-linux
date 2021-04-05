@@ -8,6 +8,10 @@ namespace Microsoft.Maui.Tests
 
 		public Color BackgroundColor { get; set; }
 
+		public Color BorderColor { get; set; }
+
+		public double BorderWidth { get; set; }
+
 		public CornerRadius CornerRadius { get; set; }
 
 		public Rectangle Frame { get; set; }
