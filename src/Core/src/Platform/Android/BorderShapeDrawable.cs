@@ -1,5 +1,4 @@
 ﻿using Android.Content;
-using Android.Content.Res;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Graphics.Drawables.Shapes;
@@ -31,12 +30,13 @@ namespace Microsoft.Maui
 
         float _strokeWidth;
 
-        public BorderShapeDrawable(IView? view = null)
+        public BorderShapeDrawable(Context? context, IView? view = null)
         {
             _invalidatePath = true;
 
             _clipPath = new Path();
-            _density = Resources?.DisplayMetrics?.Density ?? 1.0f;
+
+			_density = context?.Resources?.DisplayMetrics?.Density ?? 1.0f;
 
             if (view == null)
                 return;
@@ -65,50 +65,59 @@ namespace Microsoft.Maui
             base.OnBoundsChange(bounds);
         }
 
-        protected override void OnDraw(Shape? shape, Canvas? canvas, Paint? paint)
-        {
-            if (_disposed)
-                return;
+		protected override void OnDraw(Shape? shape, Canvas? canvas, Paint? paint)
+		{
+			if (_disposed)
+				return;
 
-            if (CanDrawBorder())
-                _strokePaint?.StrokeWidth = _strokeWidth;
+			if (_strokePaint != null && HasBorder())
+				_strokePaint.StrokeWidth = _strokeWidth;
 
-            if (_color != null)
-                Paint?.Color = _color.Value;
+			if (Paint != null && _color != null)
+				Paint.Color = _color.Value;
 
-            if (CanDrawBorder() && _strokeColor != null)
-                _strokePaint?.Color = _strokeColor.Value;
+			if (_strokePaint != null && HasBorder() && _strokeColor != null)
+				_strokePaint.Color = _strokeColor.Value;
 
-            if (_invalidatePath)
-            {
-                _invalidatePath = false;
+			if (_invalidatePath)
+			{
+				_invalidatePath = false;
 
-                var clipPath = GetRoundCornersPath(_width, _height, _strokeWidth, _cornerRadius);
+				var clipPath = GetRoundCornersPath(_width, _height, _strokeWidth, _cornerRadius);
 
-                if (clipPath == null)
-                    return;
+				if (clipPath == null)
+					return;
 
-                _clipPath.Reset();
-                _clipPath.Set(clipPath);
+				if (_clipPath != null)
+				{
+					_clipPath.Reset();
+					_clipPath.Set(clipPath);
 
-                if (_maskPath != null && CanDrawBorder())
-                {
-                    _maskPath.Reset();
-                    _maskPath.AddRect(0, 0, _width, _height, Path.Direction.Cw!);
-                    _maskPath.InvokeOp(_clipPath, Path.Op.Difference!);
-                }
-            }
+					if (_maskPath != null && HasBorder())
+					{
+						_maskPath.Reset();
+						_maskPath.AddRect(0, 0, _width, _height, Path.Direction.Cw!);
+						_maskPath.InvokeOp(_clipPath, Path.Op.Difference!);
+					}
+				}
+			}
 
-            if (CanDrawBorder())
-            {
-                var saveCount = canvas.SaveLayer(0, 0, _width, _height, null);
-                canvas.DrawPath(_clipPath, Paint);
-                canvas.DrawPath(_clipPath, _strokePaint);
-                canvas.DrawPath(_maskPath, _maskPaint);
-                canvas.RestoreToCount(saveCount);
-            }
-            else
-                canvas.DrawPath(_clipPath, Paint);
+			if (canvas == null || _clipPath == null || Paint == null || 
+				_strokePaint == null || _maskPath == null || _maskPaint == null)
+				return;
+
+			if (HasBorder())
+			{
+				var saveCount = canvas.SaveLayer(0, 0, _width, _height, null);
+			
+				canvas.DrawPath(_clipPath, Paint);
+				canvas.DrawPath(_clipPath, _strokePaint);
+				canvas.DrawPath(_maskPath, _maskPaint);
+
+				canvas.RestoreToCount(saveCount);
+			}
+			else
+				canvas.DrawPath(_clipPath, Paint);
         }
 
         protected override void Dispose(bool disposing)
@@ -134,11 +143,6 @@ namespace Microsoft.Maui
 
         bool HasBorder()
         {
-            return _strokeWidth > 0;
-        }
-
-        bool CanDrawBorder()
-        {
             InitializeBorderIfNeeded();
 
             return _strokeWidth > 0;
@@ -146,11 +150,11 @@ namespace Microsoft.Maui
 
         void InitializeBorderIfNeeded()
         {
-            if (!HasBorder())
-            {
-                DisposeBorder(true);
-                return;
-            }
+			if (_strokeWidth == 0)
+			{
+				DisposeBorder(true);
+				return;
+			}
 
             if (_maskPath == null)
                 _maskPath = new Path();
