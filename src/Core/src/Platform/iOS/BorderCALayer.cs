@@ -52,9 +52,9 @@ namespace Microsoft.Maui
             SetNeedsDisplay();
         }
 
-        public void UpdateColor(Color color)
+        public void UpdateBackgroundColor(Color backgroundColor)
         {
-            _backgroundColor = color.ToNative();
+            _backgroundColor = backgroundColor.ToNative();
 
             SetNeedsDisplay();
         }

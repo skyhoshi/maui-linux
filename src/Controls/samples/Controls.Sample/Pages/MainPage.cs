@@ -164,13 +164,14 @@ namespace Maui.Controls.Sample.Pages
 			verticalStack.Add(new TimePicker());
 			verticalStack.Add(new TimePicker { Time = TimeSpan.FromHours(8), CharacterSpacing = 6 });
 
-			//verticalStack.Add(new Image() { Source = "dotnet_bot.png" });
+			verticalStack.Add(new Image() { Source = "dotnet_bot.png" });
 
 			var borderGrid = new Grid
 			{
-				BorderColor = Color.Blue,
+				BorderColor = Color.Green,
 				BorderWidth = 4,
 				BackgroundColor = Color.Red,
+				CornerRadius = new CornerRadius(12, 0, 0, 24),
 				HeightRequest = 100,
 				Margin = new Thickness(12)
 			};
