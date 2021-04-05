@@ -34,7 +34,6 @@ namespace Maui.Controls.Sample.Pages
 			var verticalStack = new VerticalStackLayout() { Spacing = 5, BackgroundColor = Color.AntiqueWhite };
 			var horizontalStack = new HorizontalStackLayout() { Spacing = 2, BackgroundColor = Color.CornflowerBlue };
 
-
 			verticalStack.Add(CreateSampleGrid());
 
 			verticalStack.Add(new Label { Text = " ", Padding = new Thickness(10) });
@@ -166,27 +165,25 @@ namespace Maui.Controls.Sample.Pages
 
 			verticalStack.Add(new Image() { Source = "dotnet_bot.png" });
 
-			var borderGrid = new Grid
+			var borderedVerticalStackLayout = new VerticalStackLayout
 			{
 				BorderColor = Color.Green,
 				BorderWidth = 4,
 				BackgroundColor = Color.Red,
 				CornerRadius = new CornerRadius(12, 0, 0, 24),
-				HeightRequest = 100,
 				Margin = new Thickness(12)
 			};
 
-			var infoLabel = new Label { Text = "BorderTest" };
-			borderGrid.Children.Add(infoLabel);
+			var infoLabel = new Label { Text = "This a StackLayout with CornerRadius and Border", Margin = new Thickness(6, 0) };
+			borderedVerticalStackLayout.Add(infoLabel);
 
-			verticalStack.Add(borderGrid);
+			verticalStack.Add(borderedVerticalStackLayout);
 
 			Content = new ScrollView
 			{
 				Content = verticalStack
 			};
 		}
-
 
 		void SetupCompatibilityLayout()
 		{

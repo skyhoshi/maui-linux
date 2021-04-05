@@ -16,44 +16,22 @@ namespace Microsoft.Maui
 
 		public static void UpdateBackgroundColor(this AView nativeView, IView view)
 		{
-			var backgroundColor = view.BackgroundColor;
-			if (!backgroundColor.IsDefault)
-				nativeView?.SetBackgroundColor(backgroundColor.ToNative());
+			nativeView.GetOrCreateBorderDrawable(view)?.UpdateBackgroundColor(view.BackgroundColor);
 		}
 
 		public static void UpdateBorderColor(this AView nativeView, IView view)
 		{
-
+			nativeView.GetOrCreateBorderDrawable(view)?.UpdateBorderColor(view.BorderColor);
 		}
 
 		public static void UpdateBorderWidth(this AView nativeView, IView view)
 		{
-
+			nativeView.GetOrCreateBorderDrawable(view)?.UpdateBorderWidth(view.BorderWidth);
 		}
 
 		public static void UpdateCornerRadius(this AView nativeView, IView view)
 		{
-			if (nativeView.Context == null)
-				return;
-
-			var cornerRadii = new[]
-			{
-				nativeView.Context.ToPixels(view.CornerRadius.TopLeft),
-				nativeView.Context.ToPixels(view.CornerRadius.TopLeft),
-
-				nativeView.Context.ToPixels(view.CornerRadius.TopRight),
-				nativeView.Context.ToPixels(view.CornerRadius.TopRight),
-
-				nativeView.Context.ToPixels(view.CornerRadius.BottomRight),
-				nativeView.Context.ToPixels(view.CornerRadius.BottomRight),
-
-				nativeView.Context.ToPixels(view.CornerRadius.BottomLeft),
-				nativeView.Context.ToPixels(view.CornerRadius.BottomLeft)
-			};
-
-			nativeView.OutlineProvider?.Dispose();
-			nativeView.OutlineProvider = new CornerRadiusViewOutlineProvider(cornerRadii);
-			nativeView.ClipToOutline = true;
+			nativeView.GetOrCreateBorderDrawable(view)?.UpdateCornerRadius(view.CornerRadius);
 		}
 
 		public static bool GetClipToOutline(this AView view)
@@ -74,6 +52,33 @@ namespace Microsoft.Maui
 			}
 
 			nativeView.SetTag(AutomationTagId, view.AutomationId);
+		}
+
+		internal static BorderShapeDrawable? GetBorderDrawable(this AView nativeView)
+		{
+			return nativeView.Background as BorderShapeDrawable;
+		}
+
+		internal static BorderShapeDrawable? GetOrCreateBorderDrawable(this AView nativeView, IView view)
+		{
+			var borderShapeDrawable = nativeView.GetBorderDrawable();
+
+			if(borderShapeDrawable == null)
+			{
+				nativeView.SetBorderDrawable(view);
+				borderShapeDrawable = nativeView.GetBorderDrawable();
+			}
+
+			return borderShapeDrawable;
+		}
+
+		internal static void SetBorderDrawable(this AView nativeView, IView view)
+		{
+			if (nativeView != null && !(nativeView.Background is BorderShapeDrawable))
+			{
+				nativeView.Background?.Dispose();
+				nativeView.Background = new BorderShapeDrawable(nativeView.Context, view);
+			}
 		}
 	}
 }

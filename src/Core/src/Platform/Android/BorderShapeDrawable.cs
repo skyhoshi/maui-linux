@@ -21,16 +21,17 @@ namespace Microsoft.Maui
         Path? _clipPath;
         Path? _maskPath;
         Paint? _maskPaint;
-        Paint? _strokePaint;
+        Paint? _borderPaint;
 
         CornerRadius _cornerRadius;
 
-        AColor? _color;
-        AColor? _strokeColor;
+        AColor? _backgroundColor;
+        AColor? _borderColor;
 
-        float _strokeWidth;
+        float _borderWidth;
 
         public BorderShapeDrawable(Context? context, IView? view = null)
+            : base(new RectShape())
         {
             _invalidatePath = true;
 
@@ -65,59 +66,66 @@ namespace Microsoft.Maui
             base.OnBoundsChange(bounds);
         }
 
-		protected override void OnDraw(Shape? shape, Canvas? canvas, Paint? paint)
-		{
-			if (_disposed)
-				return;
+        protected override void OnDraw(Shape? shape, Canvas? canvas, Paint? paint)
+        {
+            if (_disposed)
+                return;
 
-			if (_strokePaint != null && HasBorder())
-				_strokePaint.StrokeWidth = _strokeWidth;
+            if (_borderPaint != null && HasBorder())
+                _borderPaint.StrokeWidth = _borderWidth;
 
-			if (Paint != null && _color != null)
-				Paint.Color = _color.Value;
+            if (Paint != null && _backgroundColor != null)
+                Paint.Color = _backgroundColor.Value;
 
-			if (_strokePaint != null && HasBorder() && _strokeColor != null)
-				_strokePaint.Color = _strokeColor.Value;
+            if (_borderPaint != null && HasBorder() && _borderColor != null)
+                _borderPaint.Color = _borderColor.Value;
 
-			if (_invalidatePath)
-			{
-				_invalidatePath = false;
+            if (_invalidatePath)
+            {
+                _invalidatePath = false;
 
-				var clipPath = GetRoundCornersPath(_width, _height, _strokeWidth, _cornerRadius);
+                var clipPath = GetRoundCornersPath(_width, _height, _borderWidth, _cornerRadius);
 
-				if (clipPath == null)
-					return;
+                if (clipPath == null)
+                    return;
 
-				if (_clipPath != null)
-				{
-					_clipPath.Reset();
-					_clipPath.Set(clipPath);
+                if (_clipPath != null)
+                {
+                    _clipPath.Reset();
+                    _clipPath.Set(clipPath);
 
-					if (_maskPath != null && HasBorder())
-					{
-						_maskPath.Reset();
-						_maskPath.AddRect(0, 0, _width, _height, Path.Direction.Cw!);
-						_maskPath.InvokeOp(_clipPath, Path.Op.Difference!);
-					}
-				}
-			}
+                    if (_maskPath != null && HasBorder())
+                    {
+                        _maskPath.Reset();
+                        _maskPath.AddRect(0, 0, _width, _height, Path.Direction.Cw!);
+                        _maskPath.InvokeOp(_clipPath, Path.Op.Difference!);
+                    }
+                }
+            }
 
-			if (canvas == null || _clipPath == null || Paint == null || 
-				_strokePaint == null || _maskPath == null || _maskPaint == null)
-				return;
+            if (canvas == null)
+                return;
 
-			if (HasBorder())
-			{
-				var saveCount = canvas.SaveLayer(0, 0, _width, _height, null);
-			
-				canvas.DrawPath(_clipPath, Paint);
-				canvas.DrawPath(_clipPath, _strokePaint);
-				canvas.DrawPath(_maskPath, _maskPaint);
+            if (HasBorder())
+            {
+                var saveCount = canvas.SaveLayer(0, 0, _width, _height, null);
 
-				canvas.RestoreToCount(saveCount);
-			}
-			else
-				canvas.DrawPath(_clipPath, Paint);
+                if (_clipPath != null && Paint != null)
+                    canvas.DrawPath(_clipPath, Paint);
+
+                if (_clipPath != null && _borderPaint != null)
+                    canvas.DrawPath(_clipPath, _borderPaint);
+
+                if (_maskPath != null && _maskPaint != null)
+                    canvas.DrawPath(_maskPath, _maskPaint);
+
+                canvas.RestoreToCount(saveCount);
+            }
+            else
+            {
+                if (_clipPath != null && Paint != null)
+                    canvas.DrawPath(_clipPath, Paint);
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -145,12 +153,12 @@ namespace Microsoft.Maui
         {
             InitializeBorderIfNeeded();
 
-            return _strokeWidth > 0;
+            return _borderWidth > 0;
         }
 
         void InitializeBorderIfNeeded()
         {
-			if (_strokeWidth == 0)
+			if (_borderWidth == 0)
 			{
 				DisposeBorder(true);
 				return;
@@ -168,17 +176,16 @@ namespace Microsoft.Maui
                 _maskPaint.SetXfermode(porterDuffClearMode);
             }
 
-            if (_strokePaint == null)
+            if (_borderPaint == null)
             {
-                _strokePaint = new Paint(PaintFlags.AntiAlias);
-                _strokePaint.SetStyle(Paint.Style.Stroke);
+                _borderPaint = new Paint(PaintFlags.AntiAlias);
+                _borderPaint.SetStyle(Paint.Style.Stroke);
             }
         }
 
         public void UpdateBackgroundColor(Color color)
         {
-            _color = color == Color.Default
-                ? null : (AColor?)color.ToNative();
+            _backgroundColor = color == Color.Default ? AColor.Transparent : color.ToNative();
 
             InvalidateSelf();
         }
@@ -197,8 +204,7 @@ namespace Microsoft.Maui
         {
             _invalidatePath = true;
 
-            _strokeColor = strokeColor == Color.Default
-                ? null : (AColor?)strokeColor.ToNative();
+            _borderColor = strokeColor == Color.Default ? AColor.Transparent : strokeColor.ToNative();
 
             InitializeBorderIfNeeded();
             InvalidateSelf();
@@ -208,7 +214,7 @@ namespace Microsoft.Maui
         {
             _invalidatePath = true;
 
-            _strokeWidth = (float)(strokeWidth * _density);
+            _borderWidth = (float)(strokeWidth * _density);
 
             InitializeBorderIfNeeded();
             InvalidateSelf();
@@ -231,10 +237,10 @@ namespace Microsoft.Maui
                     _maskPaint = null;
                 }
 
-                if (_strokePaint != null)
+                if (_borderPaint != null)
                 {
-                    _strokePaint.Dispose();
-                    _strokePaint = null;
+                    _borderPaint.Dispose();
+                    _borderPaint = null;
                 }
             }
         }
