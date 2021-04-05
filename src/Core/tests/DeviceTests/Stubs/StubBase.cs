@@ -33,6 +33,8 @@ namespace Microsoft.Maui.DeviceTests.Stubs
 
 		public FlowDirection FlowDirection { get; set; }
 
+		public CornerRadius CornerRadius { get; set; }
+
 		public LayoutAlignment HorizontalLayoutAlignment { get; set; }
 
 		public LayoutAlignment VerticalLayoutAlignment { get; set; }

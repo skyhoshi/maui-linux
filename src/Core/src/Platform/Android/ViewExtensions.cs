@@ -5,6 +5,7 @@ namespace Microsoft.Maui
 	public static class ViewExtensions
 	{
 		const int DefaultAutomationTagId = -1;
+
 		public static int AutomationTagId { get; set; } = DefaultAutomationTagId;
 
 		public static void UpdateIsEnabled(this AView nativeView, IView view)
@@ -18,6 +19,41 @@ namespace Microsoft.Maui
 			var backgroundColor = view.BackgroundColor;
 			if (!backgroundColor.IsDefault)
 				nativeView?.SetBackgroundColor(backgroundColor.ToNative());
+		}
+
+		public static void UpdateBorderColor(this AView nativeView, IView view)
+		{
+
+		}
+
+		public static void UpdateBorderWidth(this AView nativeView, IView view)
+		{
+
+		}
+
+		public static void UpdateCornerRadius(this AView nativeView, IView view)
+		{
+			if (nativeView.Context == null)
+				return;
+
+			var cornerRadii = new[]
+			{
+				nativeView.Context.ToPixels(view.CornerRadius.TopLeft),
+				nativeView.Context.ToPixels(view.CornerRadius.TopLeft),
+
+				nativeView.Context.ToPixels(view.CornerRadius.TopRight),
+				nativeView.Context.ToPixels(view.CornerRadius.TopRight),
+
+				nativeView.Context.ToPixels(view.CornerRadius.BottomRight),
+				nativeView.Context.ToPixels(view.CornerRadius.BottomRight),
+
+				nativeView.Context.ToPixels(view.CornerRadius.BottomLeft),
+				nativeView.Context.ToPixels(view.CornerRadius.BottomLeft)
+			};
+
+			nativeView.OutlineProvider?.Dispose();
+			nativeView.OutlineProvider = new CornerRadiusViewOutlineProvider(cornerRadii);
+			nativeView.ClipToOutline = true;
 		}
 
 		public static bool GetClipToOutline(this AView view)
@@ -34,7 +70,7 @@ namespace Microsoft.Maui
 		{
 			if (AutomationTagId == DefaultAutomationTagId)
 			{
-				AutomationTagId = Microsoft.Maui.Resource.Id.automation_tag_id;
+				AutomationTagId = Resource.Id.automation_tag_id;
 			}
 
 			nativeView.SetTag(AutomationTagId, view.AutomationId);

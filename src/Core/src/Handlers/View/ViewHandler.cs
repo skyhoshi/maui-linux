@@ -1,6 +1,3 @@
-using System;
-using System.Drawing;
-using System.Runtime.CompilerServices;
 #if __IOS__
 using NativeView = UIKit.UIView;
 #elif __MACOS__
@@ -20,10 +17,33 @@ namespace Microsoft.Maui.Handlers
 		public static PropertyMapper<IView> ViewMapper = new PropertyMapper<IView>
 		{
 			[nameof(IView.BackgroundColor)] = MapBackgroundColor,
+			[nameof(IView.BorderColor)] = MapBorderColor,
+			[nameof(IView.BorderWidth)] = MapBorderWidth,
+			[nameof(IView.CornerRadius)] = MapCornerRadius,
 			[nameof(IView.Frame)] = MapFrame,
 			[nameof(IView.IsEnabled)] = MapIsEnabled,
 			[nameof(IView.AutomationId)] = MapAutomationId
 		};
+
+		public static void MapBackgroundColor(IViewHandler handler, IView view)
+		{
+			(handler.NativeView as NativeView)?.UpdateBackgroundColor(view);
+		}
+
+		public static void MapBorderColor(IViewHandler handler, IView view)
+		{
+			(handler.NativeView as NativeView)?.UpdateBorderColor(view);
+		}
+
+		public static void MapBorderWidth(IViewHandler handler, IView view)
+		{
+			(handler.NativeView as NativeView)?.UpdateBorderWidth(view);
+		}
+
+		public static void MapCornerRadius(IViewHandler handler, IView view)
+		{
+			(handler.NativeView as NativeView)?.UpdateCornerRadius(view);
+		}
 
 		public static void MapFrame(IViewHandler handler, IView view)
 		{
@@ -35,15 +55,9 @@ namespace Microsoft.Maui.Handlers
 			(handler.NativeView as NativeView)?.UpdateIsEnabled(view);
 		}
 
-		public static void MapBackgroundColor(IViewHandler handler, IView view)
-		{
-			(handler.NativeView as NativeView)?.UpdateBackgroundColor(view);
-		}
-
 		public static void MapAutomationId(IViewHandler handler, IView view)
 		{
 			(handler.NativeView as NativeView)?.UpdateAutomationId(view);
 		}
-
 	}
 }

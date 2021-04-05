@@ -22,7 +22,7 @@ namespace Microsoft.Maui.Controls
 			set => SetValue(ColorElement.ColorProperty, value);
 		}
 
-		public CornerRadius CornerRadius
+		public new CornerRadius CornerRadius
 		{
 			get => (CornerRadius)GetValue(CornerElement.CornerRadiusProperty);
 			set => SetValue(CornerElement.CornerRadiusProperty, value);

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Runtime.CompilerServices;
 using Microsoft.Maui.Layouts;
 
 namespace Microsoft.Maui.Controls
@@ -35,6 +32,12 @@ namespace Microsoft.Maui.Controls
 		public virtual bool IsMeasureValid { get; protected set; }
 
 		public bool IsArrangeValid { get; protected set; }
+
+		public CornerRadius CornerRadius { get; set; }
+
+		public Color BorderColor { get; set; }
+
+		public double BorderWidth { get; set; }
 
 		public void Arrange(Rectangle bounds)
 		{
