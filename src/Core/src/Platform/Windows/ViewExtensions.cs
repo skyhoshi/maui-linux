@@ -12,6 +12,12 @@ namespace Microsoft.Maui
 		public static void UpdateBackgroundColor(this FrameworkElement nativeView, IView view) =>
 			(nativeView as Control)?.UpdateBackgroundColor(view.BackgroundColor);
 
+		public static void UpdateBorderColor(this FrameworkElement nativeView, IView view) { }
+
+		public static void UpdateBorderWidth(this FrameworkElement nativeView, IView view) { }
+
+		public static void UpdateCornerRadius(this FrameworkElement nativeView, IView view) { }
+
 		public static void UpdateAutomationId(this FrameworkElement nativeView, IView view) =>
 			AutomationProperties.SetAutomationId(nativeView, view.AutomationId);
 	}
