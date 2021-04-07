@@ -9,6 +9,7 @@ namespace Microsoft.Maui
 		object? NativeView { get; }
 		IView? VirtualView { get; }
 		bool HasContainer { get; set; }
+		ContainerView? ContainerView { get; }
 		Size GetDesiredSize(double widthConstraint, double heightConstraint);
 		void SetFrame(Rectangle frame);
 	}

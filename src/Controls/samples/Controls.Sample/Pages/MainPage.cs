@@ -6,6 +6,7 @@ using Maui.Controls.Sample.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Essentials;
 using Microsoft.Maui.LifecycleEvents;
 using Debug = System.Diagnostics.Debug;
@@ -190,6 +191,14 @@ namespace Maui.Controls.Sample.Pages
 			verticalStack.Add(new TimePicker { Time = TimeSpan.FromHours(8), CharacterSpacing = 6 });
 
 			verticalStack.Add(new Image() { Source = "dotnet_bot.png" });
+
+			verticalStack.Add(new Button
+			{
+				BackgroundColor = Color.Red,
+				Padding = new Thickness(40),
+				Text = "Clip",
+				ClipShape = new Path("M15.997986,0L19.777008,11.620999 32,11.620999 22.109009,18.807002 25.888,30.432 15.997986,23.245997 6.1109924,30.432 9.8840027,18.807002 0,11.620999 12.222992,11.620999z")
+			});
 
 			Content = new ScrollView
 			{

@@ -1,6 +1,3 @@
-using System;
-using System.Drawing;
-using System.Runtime.CompilerServices;
 #if __IOS__
 using NativeView = UIKit.UIView;
 #elif __MACOS__
@@ -20,6 +17,7 @@ namespace Microsoft.Maui.Handlers
 		public static PropertyMapper<IView> ViewMapper = new PropertyMapper<IView>
 		{
 			[nameof(IView.BackgroundColor)] = MapBackgroundColor,
+			[nameof(IView.ClipShape)] = MapClipShape,
 			[nameof(IView.Frame)] = MapFrame,
 			[nameof(IView.IsEnabled)] = MapIsEnabled,
 			[nameof(IView.AutomationId)] = MapAutomationId,
@@ -52,6 +50,12 @@ namespace Microsoft.Maui.Handlers
 		protected abstract void RemoveContainer();
 
 		public IMauiContext? MauiContext { get; private set; }
+
+		public ContainerView? ContainerView
+		{
+			get;
+			private protected set;
+		}
 
 		public object? NativeView
 		{
@@ -107,11 +111,15 @@ namespace Microsoft.Maui.Handlers
 			((NativeView?)handler.NativeView)?.UpdateBackgroundColor(view);
 		}
 
+		public static void MapClipShape(IViewHandler handler, IView view)
+		{
+			handler.ContainerView?.UpdateClipShape(view);
+		}
+
 		public static void MapAutomationId(IViewHandler handler, IView view)
 		{
 			((NativeView?)handler.NativeView)?.UpdateAutomationId(view);
 		}
-
 
 		static partial void MappingSemantics(IViewHandler handler, IView view);
 

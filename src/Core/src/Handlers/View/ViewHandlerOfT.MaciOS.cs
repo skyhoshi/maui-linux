@@ -44,7 +44,13 @@ namespace Microsoft.Maui.Handlers
 
 		protected override void SetupContainer()
 		{
+			var oldParent = NativeView?.Superview;
+			ContainerView ??= new ContainerView();
 
+			if (oldParent == ContainerView)
+				return;
+
+			ContainerView.MainView = NativeView;
 		}
 
 		protected override void RemoveContainer()

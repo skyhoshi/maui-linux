@@ -11,6 +11,8 @@ namespace Microsoft.Maui.DeviceTests.Stubs
 
 		public Color BackgroundColor { get; set; }
 
+		public Graphics.IShape ClipShape { get; set; }
+
 		public Rectangle Frame { get; set; } = new Rectangle(0, 0, 20, 20);
 
 		public IViewHandler Handler { get; set; }

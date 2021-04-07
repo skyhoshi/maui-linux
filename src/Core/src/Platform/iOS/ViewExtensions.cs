@@ -27,6 +27,11 @@ namespace Microsoft.Maui
 				nativeView.BackgroundColor = color.ToNative();
 		}
 
+		public static void UpdateClipShape(this ContainerView nativeView, IView view)
+		{
+			nativeView.ClipShape = view.ClipShape;
+		}
+
 		public static void UpdateAutomationId(this UIView nativeView, IView view) =>
 			nativeView.AccessibilityIdentifier = view.AutomationId;
 
