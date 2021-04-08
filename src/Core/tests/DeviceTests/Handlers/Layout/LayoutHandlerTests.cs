@@ -1,6 +1,6 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.Maui.DeviceTests.Stubs;
+using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Handlers;
 using Xunit;
 
@@ -43,6 +43,23 @@ namespace Microsoft.Maui.DeviceTests.Handlers.Layout
 			});
 
 			Assert.Equal(0, count);
+		}
+
+		[Fact(DisplayName = "ContainerView Initializes Correctly")]
+		public async Task ContainerViewInitializesCorrectly()
+		{
+			var layout = new LayoutStub
+			{
+				BackgroundColor = Color.Red,
+				ClipShape = new Ellipse()
+			};
+
+			var slider = new SliderStub();
+			layout.Add(slider);
+
+			var handler = await CreateHandlerAsync(layout);
+
+			Assert.NotNull(handler.ContainerView);
 		}
 	}
 }
