@@ -1,3 +1,5 @@
+using System;
+
 #if __IOS__
 using NativeView = UIKit.UIView;
 #elif __MACOS__
@@ -16,15 +18,17 @@ namespace Microsoft.Maui.Handlers
 	{
 		public static PropertyMapper<IView> ViewMapper = new PropertyMapper<IView>
 		{
+			[nameof(IView.AutomationId)] = MapAutomationId,
 			[nameof(IView.BackgroundColor)] = MapBackgroundColor,
 			[nameof(IView.ClipShape)] = MapClipShape,
 			[nameof(IView.Frame)] = MapFrame,
 			[nameof(IView.IsEnabled)] = MapIsEnabled,
-			[nameof(IView.AutomationId)] = MapAutomationId,
-			[nameof(IView.Semantics)] = MapSemantics
+			[nameof(IView.Semantics)] = MapSemantics,
 		};
 
-		internal ViewHandler() { }
+		internal ViewHandler()
+		{
+		}
 
 		bool _hasContainer;
 
@@ -50,24 +54,14 @@ namespace Microsoft.Maui.Handlers
 		protected abstract void RemoveContainer();
 
 		public IMauiContext? MauiContext { get; private set; }
+    
+		public IServiceProvider? Services => MauiContext?.Services;
+    
+		public ContainerView? ContainerView { get; private protected set; }
+    
+		public object? NativeView { get; private protected set; }
 
-		public ContainerView? ContainerView
-		{
-			get;
-			private protected set;
-		}
-
-		public object? NativeView
-		{
-			get;
-			private protected set;
-		}
-
-		public IView? VirtualView
-		{
-			get;
-			private protected set;
-		}
+		public IView? VirtualView { get; private protected set; }
 
 		public void SetMauiContext(IMauiContext mauiContext) => MauiContext = mauiContext;
 

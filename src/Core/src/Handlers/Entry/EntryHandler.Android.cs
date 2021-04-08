@@ -95,9 +95,7 @@ namespace Microsoft.Maui.Handlers
 
 		public static void MapFont(EntryHandler handler, IEntry entry)
 		{
-			_ = handler.Services ?? throw new InvalidOperationException($"{nameof(Services)} should have been set by base class.");
-
-			var fontManager = handler.Services.GetRequiredService<IFontManager>();
+			var fontManager = handler.GetRequiredService<IFontManager>();
 
 			handler.NativeView?.UpdateFont(entry, fontManager);
 		}
@@ -209,6 +207,10 @@ namespace Microsoft.Maui.Handlers
 
 			void ITextWatcher.OnTextChanged(Java.Lang.ICharSequence? s, int start, int before, int count)
 			{
+				// we are replacing 0 characters with 0 characters, so skip
+				if (before == 0 && count == 0)
+					return;
+
 				Handler?.OnTextChanged(s?.ToString());
 			}
 		}

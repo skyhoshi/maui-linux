@@ -91,12 +91,13 @@ namespace Microsoft.Maui.Handlers
 
 		public static void MapFont(DatePickerHandler handler, IDatePicker datePicker)
 		{
-			_ = handler.Services ?? throw new InvalidOperationException($"{nameof(Services)} should have been set by base class.");
-
-			var fontManager = handler.Services.GetRequiredService<IFontManager>();
+			var fontManager = handler.GetRequiredService<IFontManager>();
 
 			handler.NativeView?.UpdateFont(datePicker, fontManager);
 		}
+
+		[MissingMapper]
+		public static void MapTextColor(DatePickerHandler handler, IDatePicker datePicker) { }
 
 		void OnValueChanged(object? sender, EventArgs? e)
 		{

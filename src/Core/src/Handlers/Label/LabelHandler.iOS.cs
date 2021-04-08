@@ -23,7 +23,7 @@ namespace Microsoft.Maui.Handlers
 
 		public static void MapCharacterSpacing(LabelHandler handler, ILabel label)
 		{
-			MapFormatting(handler, label);
+			handler.NativeView?.UpdateCharacterSpacing(label);
 		}
 
 		public static void MapHorizontalTextAlignment(LabelHandler handler, ILabel label)
@@ -48,21 +48,19 @@ namespace Microsoft.Maui.Handlers
 
 		public static void MapTextDecorations(LabelHandler handler, ILabel label)
 		{
-			MapFormatting(handler, label);
+			handler.NativeView?.UpdateTextDecorations(label);
 		}
 
 		public static void MapFont(LabelHandler handler, ILabel label)
 		{
-			_ = handler.Services ?? throw new InvalidOperationException($"{nameof(Services)} should have been set by base class.");
-
-			var fontManager = handler.Services.GetRequiredService<IFontManager>();
+			var fontManager = handler.GetRequiredService<IFontManager>();
 
 			handler.NativeView?.UpdateFont(label, fontManager);
 		}
 
 		public static void MapLineHeight(LabelHandler handler, ILabel label)
 		{
-			MapFormatting(handler, label);
+			handler.NativeView?.UpdateLineHeight(label);
 		}
 
 		public static void MapFormatting(LabelHandler handler, ILabel label)

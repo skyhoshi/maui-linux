@@ -56,11 +56,6 @@ namespace Microsoft.Maui.Handlers
 			base.DisconnectHandler(nativeView);
 		}
 
-		public static void MapBackgroundColor(ButtonHandler handler, IButton button)
-		{
-			handler.NativeView?.UpdateBackgroundColor(button);
-		}
-
 		public static void MapText(ButtonHandler handler, IButton button)
 		{
 			handler.NativeView?.UpdateText(button);
@@ -78,9 +73,7 @@ namespace Microsoft.Maui.Handlers
 
 		public static void MapFont(ButtonHandler handler, IButton button)
 		{
-			_ = handler.Services ?? throw new InvalidOperationException($"{nameof(Services)} should have been set by base class.");
-
-			var fontManager = handler.Services.GetRequiredService<IFontManager>();
+			var fontManager = handler.GetRequiredService<IFontManager>();
 
 			handler.NativeView?.UpdateFont(button, fontManager);
 		}

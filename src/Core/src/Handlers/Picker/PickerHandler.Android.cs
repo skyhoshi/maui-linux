@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 using Android.App;
+using Microsoft.Extensions.DependencyInjection;
 using AResource = Android.Resource;
 
 namespace Microsoft.Maui.Handlers
@@ -48,6 +49,16 @@ namespace Microsoft.Maui.Handlers
 		{
 			handler.NativeView?.UpdateCharacterSpacing(picker);
 		}
+
+		public static void MapFont(PickerHandler handler, IPicker picker)
+		{
+			var fontManager = handler.GetRequiredService<IFontManager>();
+
+			handler.NativeView?.UpdateFont(picker, fontManager);
+		}
+
+		[MissingMapper]
+		public static void MapTextColor(PickerHandler handler, IPicker view) { }
 
 		void OnFocusChange(object? sender, global::Android.Views.View.FocusChangeEventArgs e)
 		{

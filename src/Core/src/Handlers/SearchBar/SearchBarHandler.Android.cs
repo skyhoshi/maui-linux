@@ -32,9 +32,7 @@ namespace Microsoft.Maui.Handlers
 
 		public static void MapFont(SearchBarHandler handler, ISearchBar searchBar)
 		{
-			_ = handler.Services ?? throw new InvalidOperationException($"{nameof(Services)} should have been set by base class.");
-
-			var fontManager = handler.Services.GetRequiredService<IFontManager>();
+			var fontManager = handler.GetRequiredService<IFontManager>();
 
 			handler.NativeView?.UpdateFont(searchBar, fontManager, handler._editText);
 		}
@@ -48,5 +46,17 @@ namespace Microsoft.Maui.Handlers
 		{
 			handler.QueryEditor?.UpdateCharacterSpacing(searchBar);
 		}
+
+		[MissingMapper]
+		public static void MapTextColor(IViewHandler handler, ISearchBar searchBar) { }
+
+		[MissingMapper]
+		public static void MapIsTextPredictionEnabled(IViewHandler handler, ISearchBar searchBar) { }
+
+		[MissingMapper]
+		public static void MapMaxLength(IViewHandler handler, ISearchBar searchBar) { }
+
+		[MissingMapper]
+		public static void MapIsReadOnly(IViewHandler handler, ISearchBar searchBar) { }
 	}
 }
