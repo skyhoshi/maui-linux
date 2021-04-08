@@ -1,5 +1,4 @@
 using System;
-using Microsoft.Maui.Hosting;
 using UIKit;
 
 namespace Microsoft.Maui
@@ -27,7 +26,7 @@ namespace Microsoft.Maui
 
 			handler.SetVirtualView(view);
 
-			if (handler.NativeView is not UIView result)
+			if (((INativeViewHandler)handler).NativeView is not UIView result)
 			{
 				throw new InvalidOperationException($"Unable to convert {view} to {typeof(UIView)}");
 			}

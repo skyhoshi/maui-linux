@@ -5,12 +5,15 @@ namespace Microsoft.Maui.Handlers
 {
 	public partial class ViewHandler<TVirtualView, TNativeView> : INativeViewHandler
 	{
-		View? INativeViewHandler.NativeView => (View?)base.NativeView;
+		View? View => ContainerView ?? (View?)base.NativeView;
+
+		View? INativeViewHandler.NativeView => View;
+
 		public Context? Context => MauiContext?.Context;
 
 		public override void SetFrame(Rectangle frame)
 		{
-			var nativeView = NativeView;
+			var nativeView = View;
 
 			if (nativeView == null)
 				return;

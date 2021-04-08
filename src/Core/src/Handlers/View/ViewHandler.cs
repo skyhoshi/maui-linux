@@ -86,6 +86,7 @@ namespace Microsoft.Maui.Handlers
 		}
 
 		partial void DisconnectingHandler(NativeView? nativeView);
+
 		private protected void DisconnectHandler(NativeView? nativeView)
 		{
 			DisconnectingHandler(nativeView);
@@ -113,6 +114,13 @@ namespace Microsoft.Maui.Handlers
 
 		public static void MapClipShape(IViewHandler handler, IView view)
 		{
+			var clipShape = view.ClipShape;
+
+			if (clipShape != null)
+				handler.HasContainer = true;
+			else
+				handler.HasContainer = NeedsContainer(view);
+
 			handler.ContainerView?.UpdateClipShape(view);
 		}
 
@@ -127,6 +135,16 @@ namespace Microsoft.Maui.Handlers
 		{
 			MappingSemantics(handler, view);
 			((NativeView?)handler.NativeView)?.UpdateSemantics(view);
+		}
+
+		public static bool NeedsContainer(IView view)
+		{
+			var clipShape = view.ClipShape;
+
+			if (clipShape != null)
+				return true;
+
+			return false;
 		}
 	}
 }

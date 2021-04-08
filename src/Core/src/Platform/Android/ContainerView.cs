@@ -31,7 +31,7 @@ namespace Microsoft.Maui
 					RemoveView(_mainView);
 				
 				_mainView = value;
-
+		
 				if (_mainView != null)
 				{
 					_mainView.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);
@@ -47,7 +47,12 @@ namespace Microsoft.Maui
 				var bounds = new RectangleF(0, 0, canvas.Width, canvas.Height);
 				if (_lastPathSize != bounds.Size || _currentPath == null)
 				{
-					var path = ClipShape.CreatePath(bounds);
+					float density;
+
+					using (Android.Util.DisplayMetrics? metrics = Context?.Resources?.DisplayMetrics)
+						density = metrics != null ? metrics.Density : 1.0f;
+
+					var path = ClipShape.CreatePath(bounds, density);
 					_currentPath = path.AsAndroidPath();
 					_lastPathSize = bounds.Size;
 				}

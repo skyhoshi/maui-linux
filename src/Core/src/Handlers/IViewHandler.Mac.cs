@@ -4,6 +4,6 @@ namespace Microsoft.Maui
 {
 	public interface INativeViewHandler : IViewHandler
 	{
-		NSView? View { get; }
+		new NSView? NativeView { get; }
 	}
 }

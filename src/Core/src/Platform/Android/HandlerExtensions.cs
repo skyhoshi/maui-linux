@@ -1,5 +1,4 @@
 using System;
-using Microsoft.Maui.Hosting;
 using AView = Android.Views.View;
 
 namespace Microsoft.Maui
@@ -28,7 +27,7 @@ namespace Microsoft.Maui
 
 			handler.SetVirtualView(view);
 
-			if (!(handler.NativeView is AView result))
+			if (((INativeViewHandler)handler).NativeView is not AView result)
 			{
 				throw new InvalidOperationException($"Unable to convert {view} to {typeof(AView)}");
 			}

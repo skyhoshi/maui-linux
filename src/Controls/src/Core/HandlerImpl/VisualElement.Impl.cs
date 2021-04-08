@@ -7,7 +7,7 @@ namespace Microsoft.Maui.Controls
 	public partial class VisualElement : IFrameworkElement
 	{
 		IViewHandler _handler;
-		IShape _clipShape;
+		Maui.Semantics _semantics;
 
 		public Rectangle Frame => Bounds;
 
@@ -21,17 +21,7 @@ namespace Microsoft.Maui.Controls
 			}
 		}
 
-		public IShape ClipShape
-		{
-			get => _clipShape;
-			set
-			{
-				_clipShape = value;
-
-				if (Handler != null)
-					Handler.HasContainer = _clipShape != null;
-			}
-		}
+		public IShape ClipShape { get; set; }
 
 		protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
@@ -137,11 +127,7 @@ namespace Microsoft.Maui.Controls
 		Primitives.LayoutAlignment IFrameworkElement.HorizontalLayoutAlignment => default;
 		Primitives.LayoutAlignment IFrameworkElement.VerticalLayoutAlignment => default;
 
-		Maui.Semantics _semantics;
-		Maui.Semantics IFrameworkElement.Semantics
-		{
-			get => _semantics;
-		}
+		Maui.Semantics IFrameworkElement.Semantics => _semantics;
 
 		// We don't want to initialize Semantics until someone explicitly 
 		// wants to modify some aspect of the semantics class
