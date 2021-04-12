@@ -161,7 +161,6 @@ namespace Maui.Controls.Sample.Pages
 			placeholderSearchBar.Placeholder = "Placeholder";
 			verticalStack.Add(placeholderSearchBar);
 
-
 			var monkeyList = new List<string>
 			{
 				"Baboon",
@@ -198,12 +197,13 @@ namespace Maui.Controls.Sample.Pages
 
 			verticalStack.Add(new Image() { Source = "dotnet_bot.png" });
 
+			verticalStack.Add(new Label { Text = "Transformations", Rotation = 30, Scale = 2, TranslationX = 24 });
+
 			Content = new ScrollView
 			{
 				Content = verticalStack
 			};
 		}
-
 
 		void SetupCompatibilityLayout()
 		{
