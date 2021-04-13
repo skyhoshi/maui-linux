@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Maui.Hosting;
+using Microsoft.Maui.LifecycleEvents;
 
 namespace Microsoft.Maui.Controls.Compatibility
 {
@@ -28,6 +29,19 @@ namespace Microsoft.Maui.Controls.Compatibility
 			typeof(TimePicker),
 #endif
 		};
+
+		internal static List<IWindow> _internalWindows = new();
+		public static IAppHostBuilder RegisterWindows(this IAppHostBuilder builder)
+		{
+			builder.ConfigureLifecycleEvents(events =>
+			{
+				events.AddEvent<Action<IWindow>>(nameof(IApplication.CreateWindow), window =>
+				{
+					_internalWindows.Add(window);
+				});
+			});
+			return builder;
+		}
 
 		public static IAppHostBuilder UseFormsCompatibility(this IAppHostBuilder builder, bool registerRenderers = true)
 		{

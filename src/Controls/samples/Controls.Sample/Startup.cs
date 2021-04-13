@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls.Compatibility;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Essentials;
 using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
@@ -18,7 +19,7 @@ namespace Maui.Controls.Sample
 	public class Startup : IStartup
 	{
 		public readonly static bool UseSemanticsPage = false;
-		public readonly static bool UseXamlPage = false;
+		public readonly static bool UseXamlPage = true;
 		public readonly static bool UseXamlApp = true;
 
 		public void Configure(IAppHostBuilder appBuilder)
