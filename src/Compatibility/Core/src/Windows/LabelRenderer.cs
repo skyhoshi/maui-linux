@@ -189,6 +189,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.UWP
 			base.OnElementPropertyChanged(sender, e);
 		}
 
+		[PortHandler]
 		void UpdateTextDecorations(TextBlock textBlock)
 		{
 			if (!Element.IsSet(Label.TextDecorationsProperty))
