@@ -43,11 +43,11 @@ namespace Microsoft.Maui.DeviceTests.Stubs
 
 		public double TranslationY { get; set; }
 
-		public double Scale { get; set; } = 1.0d;
+		public double Scale { get; set; } = 1d;
 
-		public double ScaleX { get; set; }
+		public double ScaleX { get; set; } = 1d;
 
-		public double ScaleY { get; set; }
+		public double ScaleY { get; set; } = 1d;
 
 		public double Rotation { get; set; }
 
@@ -55,9 +55,9 @@ namespace Microsoft.Maui.DeviceTests.Stubs
 
 		public double RotationY { get; set; }
 
-		public double AnchorX { get; set; }
+		public double AnchorX { get; set; } = .5d;
 
-		public double AnchorY { get; set; }
+		public double AnchorY { get; set; } = .5d;
 
 		public void Arrange(Rectangle bounds)
 		{
