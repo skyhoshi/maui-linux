@@ -143,6 +143,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.UWP
 			return String.IsNullOrWhiteSpace(Element.Format) || Element.Format.Equals("d");
 		}
 
+		[PortHandler]
 		void UpdateDate(DateTime date)
 		{
 			if (Control != null)
@@ -153,6 +154,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.UWP
 			UpdateYear();
 		}
 
+		[PortHandler]
 		void UpdateMonth()
 		{
 			Control.MonthVisible = true;
@@ -178,6 +180,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.UWP
 			}
 		}
 
+		[PortHandler]
 		void UpdateDay()
 		{
 			Control.DayVisible = true;
@@ -203,6 +206,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.UWP
 			}
 		}
 
+		[PortHandler]
 		void UpdateYear()
 		{
 			Control.YearVisible = true;
