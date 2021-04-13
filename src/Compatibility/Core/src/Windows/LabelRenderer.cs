@@ -393,6 +393,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.UWP
 			}
 		}
 
+		[PortHandler]
 		void UpdateMaxLines(TextBlock textBlock)
 		{
 			if (Element.MaxLines >= 0)
