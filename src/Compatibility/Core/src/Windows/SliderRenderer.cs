@@ -101,6 +101,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.UWP
 			UpdateMaximumTrackColor();
 		}
 
+		[PortHandler]
 		void UpdateMinimumTrackColor()
 		{
 			if (Control != null)
@@ -112,6 +113,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.UWP
 			}
 		}
 
+		[PortHandler]
 		void UpdateMaximumTrackColor()
 		{
 			if (Control != null)
