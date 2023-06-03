@@ -78,10 +78,6 @@ namespace Microsoft.Maui
 				// no-op
 
 			}
-#pragma warning disable CS0168
-			catch (Exception ex)
-#pragma warning restore CS0168
-			{ }
 			finally
 			{
 				// only mark as finished if we are still working on the same image

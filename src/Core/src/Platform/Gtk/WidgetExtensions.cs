@@ -25,6 +25,7 @@ namespace Microsoft.Maui
 
 					break;
 				case Visibility.Collapsed:
+					nativeView.Visible = false;
 
 					break;
 				default:
