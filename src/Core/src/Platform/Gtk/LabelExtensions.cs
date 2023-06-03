@@ -34,7 +34,7 @@ namespace Microsoft.Maui
 
 		public static void UpdateMaxLines(this Label nativeLabel, ILabel label)
 		{
-			// nativeLabel.Lines = label.MaxLines;
+			nativeLabel.Lines = label.MaxLines;
 			nativeLabel.AdjustMaxLines();
 
 		}
@@ -111,9 +111,9 @@ namespace Microsoft.Maui
 
 		public static void UpdateLineBreakMode(this Label nativeLabel, ILabel label)
 		{
-			var labelLineBreakMode = LineBreakMode.CharacterWrap;
-			var labelMaxLines = 0;
-
+			var labelLineBreakMode = label.LineBreakMode;
+			var labelMaxLines = label.MaxLines;
+			
 			switch (labelLineBreakMode)
 			{
 				case LineBreakMode.NoWrap:

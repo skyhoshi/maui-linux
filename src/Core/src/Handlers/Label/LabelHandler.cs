@@ -39,6 +39,10 @@ namespace Microsoft.Maui.Handlers
 			[nameof(ILabel.Text)] = MapText,
 			[nameof(ITextStyle.TextColor)] = MapTextColor,
 			[nameof(ILabel.TextDecorations)] = MapTextDecorations,
+#if GTK			
+			[nameof(ILabel.LineBreakMode)] = MapLineBreakMode,
+			[nameof(ILabel.MaxLines)] = MapMaxLines,
+#endif
 		};
 
 		public static CommandMapper<IActivityIndicator, ILabelHandler> CommandMapper = new(ViewCommandMapper)
